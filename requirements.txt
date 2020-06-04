@@ -1,0 +1,2 @@
+azure-mgmt-storage==10.0.0
+xmltodict
