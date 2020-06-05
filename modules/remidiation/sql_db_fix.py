@@ -148,7 +148,17 @@ class sql_DB_fix:
     
     def Postgre_log_retention_fix(self, token):
         post_retention_list = self.sd.postgre_log_retention(token)
-        Retention_Days = input("Enter log_retention days(4-7): ")
+        if len(post_retention_list) != 0:
+            while True:
+                try:
+                    Retention_Days = int(input("Enter log_retention days(4-7): "))
+                except ValueError as _:
+                    print("Enter only interger values")
+                    continue
+                if Retention_Days < 4 and log_retention_Days > 7:
+                    print("Enter Value between 4 - 7!!")
+                else:
+                    break
         for each_property in post_retention_list:
             splitted_value = each_property[0].split('/')
             req_url = url_const.POSTGRESQL_CONFIG_UPDATE.format(splitted_value[2], splitted_value[4], splitted_value[8], "log_retention_days")

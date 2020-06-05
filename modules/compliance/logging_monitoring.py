@@ -91,8 +91,10 @@ class logging_monitoring:
             container_info = json.loads(json.dumps(xpars))
             try:
                 if container_info["EnumerationResults"]["Containers"] is None:
+                    print(" ===> No containers found in", splitted_value[8].upper())
                     continue
             except KeyError as ke:
+                print(" ===> Secure network firewall rules are enabled in", splitted_value[8].upper())
                 continue
             log_container_comp_info = container_info["EnumerationResults"]["Containers"]["Container"]
             if isinstance(log_container_comp_info, list):

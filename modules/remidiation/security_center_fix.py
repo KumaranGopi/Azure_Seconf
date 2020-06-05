@@ -1,4 +1,5 @@
 import requests
+import re
 import json
 from modules.compliance.security_center import SecurityCenter
 from modules.constants import url_const
@@ -62,7 +63,15 @@ class SecurityCenterFix:
         sec_email_fix = self.ss.securitycontacts_email(token)
         if not sec_email_fix:
             print("Your SecurityContact List is Empty!!. Add a security Contact to get Compliant")
-            securityContact_emailID = input("Enter the Email_ID: ")
+            while True:
+                securityContact_emailID = input("Enter the Email_ID: ")
+                EMAIL_REGEX = re.compile(r"'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'")
+                if not EMAIL_REGEX.match(securityContact_emailID):
+                    print("Please enter a valid email Id")
+                    continue
+                else:
+                    break
+            
             req_url = url_const.ADDSECURITY_CONTACTS_FIX.format(self.SUBSCRIPTION_ID)
             headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
             data = {"id": "/subscriptions/"+ self.SUBSCRIPTION_ID +"/providers/Microsoft.Security/securityContacts/default1",
@@ -82,7 +91,14 @@ class SecurityCenterFix:
 
         elif sec_email_fix[1] == "":
             print("Email ID is not Set in your SecurityContact!!. Add EmailID to get Compliant")
-            securityContact_emailID = input("Enter the Email_ID: ")
+            while True:
+                securityContact_emailID = input("Enter the Email_ID: ")
+                EMAIL_REGEX = re.compile(r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$')
+                if not EMAIL_REGEX.match(securityContact_emailID):
+                    print("Please enter a valid email Id")
+                    continue
+                else:
+                    break
             req_url = url_const.UPDATESECURITY_CONTACT_FIX.format(self.SUBSCRIPTION_ID, sec_email_fix[0])
             headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
             data = {"id": "/subscriptions/"+ self.SUBSCRIPTION_ID +"/providers/Microsoft.Security/securityContacts/"+ sec_email_fix[0] +"",
@@ -108,7 +124,19 @@ class SecurityCenterFix:
         sec_phone_data = self.ss.securitycontacts_phone(token)
         if not sec_phone_data:
             print("Your SecurityContact List is Empty!!. Add a security Contact to get Compliant")
-            SecurityContact_PhoneNo = input("Enter the Phone_Number: ")
+            while True:
+                try:
+                    SecurityContact_PhoneNo = int(input("Enter the Phone_Number: "))
+                except ValueError as _:
+                    print("Enter only interger values")
+                    continue
+                PHONE_REGEX = re.compile(r'^\+(?:[0-9] ?){6,14}[0-9]$')
+                if not PHONE_REGEX.match(SecurityContact_PhoneNo):
+                    print("Please enter a valid Phone_No")
+                    continue
+                else:
+                    break
+            
             req_url = url_const.ADDSECURITY_CONTACTS_FIX.format(self.SUBSCRIPTION_ID)
             headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
             data = {"id": "/subscriptions/"+ self.SUBSCRIPTION_ID +"/providers/Microsoft.Security/securityContacts/default1",
@@ -129,7 +157,18 @@ class SecurityCenterFix:
         try:
             if sec_phone_data["value"][0]["properties"]["phone"]== '':
                 print("Phone Number is not Set in your SecurityContact!!. Add Phone Number to get Compliant")
-                SecurityContact_PhoneNo = input("Enter the Phone_Number: ")
+                while True:
+                    try:
+                        SecurityContact_PhoneNo = int(input("Enter the Phone_Number: "))
+                    except ValueError as _:
+                        print("Enter only interger values")
+                        continue
+                    PHONE_REGEX = re.compile(r'^\+(?:[0-9] ?){6,14}[0-9]$')
+                    if not PHONE_REGEX.match(SecurityContact_PhoneNo):
+                        print("Please enter a valid Phone_No")
+                        continue
+                    else:
+                        break
                 req_url = url_const.UPDATESECURITY_CONTACT_FIX.format(self.SUBSCRIPTION_ID, sec_phone_data["value"][0]["name"])
                 headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
                 data = {"id": "/subscriptions/"+ self.SUBSCRIPTION_ID +"/providers/Microsoft.Security/securityContacts/"+ sec_phone_data["value"][0]["name"] +"",
@@ -149,7 +188,18 @@ class SecurityCenterFix:
                     print(" ===> Not updated!!! Error ")
         except KeyError as ke:
             print("Phone Number is not Set in your SecurityContact!!. Add Phone Number to get Compliant")
-            SecurityContact_PhoneNo = input("Enter the Phone_Number: ")
+            while True:
+                try:
+                    SecurityContact_PhoneNo = int(input("Enter the Phone_Number: "))
+                except ValueError as _:
+                    print("Enter only interger values")
+                    continue
+                PHONE_REGEX = re.compile(r'^\+(?:[0-9] ?){6,14}[0-9]$')
+                if not PHONE_REGEX.match(SecurityContact_PhoneNo):
+                    print("Please enter a valid Phone_No")
+                    continue
+                else:
+                    break
             req_url = url_const.UPDATESECURITY_CONTACT_FIX.format(self.SUBSCRIPTION_ID, sec_phone_data["value"][0]["name"])
             headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
             data = {"id": "/subscriptions/"+ self.SUBSCRIPTION_ID +"/providers/Microsoft.Security/securityContacts/"+ sec_phone_data["value"][0]["name"] +"",

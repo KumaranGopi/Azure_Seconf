@@ -17,30 +17,46 @@ class logging_monitoring_fix:
     def log_profile_fix(self, mgmt_token):
         log_profile_data = self.lm.log_profile(mgmt_token)
         if not log_profile_data["value"]:
-            log_retention_Days = int(input("Enter the retention days for Activity logs(Enter 365 or 0):"))
+            while True:
+                try:
+                    log_retention_Days = int(input("Enter the retention days for Activity logs(Enter 365 or 0):"))
+                except ValueError as _:
+                    print("Enter only interger values")
+                    continue
+                if log_retention_Days == 365 or log_retention_Days == 0:
+                    break
+                else:
+                    print("Enter Value as 365 or 0 as per CIS guidelines!!")
+                    continue
+                    
+            
             log_retention_storage = input("Enter StorageAccount_Id(To store Activity Logs): ")
             if log_retention_Days == 365:
                 enabled = True
             else:
                 enabled = False
-            profile_fix_url = url_const.CREATE_LOG_PROFILE.format(self.SUBSCRIPTION_ID, "default")
-            profile_fix_header = {'Authorization': 'Bearer {}'.format(mgmt_token),
-                                 'Content-Type': 'application/json'}
-            profile_fix_data = {"properties": {"locations": ["australiacentral","australiacentral2","australiaeast","australiasoutheast",
-                                                            "brazilsouth","canadacentral","canadaeast","centralindia","centralus","eastasia",
-                                                            "eastus","eastus2","francecentral","francesouth","germanynorth","germanywestcentral",
-                                                            "japaneast","japanwest","koreacentral","koreasouth","northcentralus","northeurope",
-                                                            "norwayeast","norwaywest","southafricanorth","southafricawest","southcentralus",
-                                                            "southindia","southeastasia","switzerlandnorth","switzerlandwest","uaecentral",
-                                                            "uaenorth","uksouth","ukwest","westcentralus","westeurope","westindia","westus",
-                                                            "westus2","global"],"categories": ["Write","Delete","Action"],
-                                                            "retentionPolicy": {"enabled": enabled,"days": log_retention_Days},
-                                                            "storageAccountId": ""+ log_retention_storage +""}}
-            profile_fix_req = requests.put(profile_fix_url, headers=profile_fix_header, data=json.dumps(profile_fix_data))
-            if profile_fix_req.status_code == 200:
-                print(" ===> Log Profile Created Successfully ")
-            else:
-                print(" ===> Not updated!!! Error ")
+            try:
+                profile_fix_url = url_const.CREATE_LOG_PROFILE.format(self.SUBSCRIPTION_ID, "default")
+                profile_fix_header = {'Authorization': 'Bearer {}'.format(mgmt_token),
+                                    'Content-Type': 'application/json'}
+                profile_fix_data = {"properties": {"locations": ["australiacentral","australiacentral2","australiaeast","australiasoutheast",
+                                                                "brazilsouth","canadacentral","canadaeast","centralindia","centralus","eastasia",
+                                                                "eastus","eastus2","francecentral","francesouth","germanynorth","germanywestcentral",
+                                                                "japaneast","japanwest","koreacentral","koreasouth","northcentralus","northeurope",
+                                                                "norwayeast","norwaywest","southafricanorth","southafricawest","southcentralus",
+                                                                "southindia","southeastasia","switzerlandnorth","switzerlandwest","uaecentral",
+                                                                "uaenorth","uksouth","ukwest","westcentralus","westeurope","westindia","westus",
+                                                                "westus2","global"],"categories": ["Write","Delete","Action"],
+                                                                "retentionPolicy": {"enabled": enabled,"days": log_retention_Days},
+                                                                "storageAccountId": ""+ log_retention_storage +""}}
+                profile_fix_req = requests.put(profile_fix_url, headers=profile_fix_header, data=json.dumps(profile_fix_data))
+                if profile_fix_req.status_code == 200:
+                    print(" ===> Log Profile Created Successfully ")
+                else:
+                    print(" ===> Not updated!!! Error")
+            except KeyError as ke:
+                pass
+
 
 
     # CIS 5.1.2: Ensure that Activity Log Retention is set 365 days or greater
@@ -53,7 +69,16 @@ class logging_monitoring_fix:
             elif each_item["properties"]["retentionPolicy"]["enabled"] is True and each_item["properties"]["retentionPolicy"]["days"] >= 365:
                 pass
             else:
-                log_retention_days = int(input("Enter the retention days for Activity logs(Enter 365 or greater value):"))
+                while True:
+                    try:
+                        log_retention_Days = int(input("Enter the retention days for Activity logs(Enter 365 or 0):"))
+                    except ValueError as _:
+                        print("Enter only interger values")
+                        continue
+                    if log_retention_Days != 365 or log_retention_Days != 0:
+                        print("Enter Value as 365 or 0 as per CIS guidelines!!")
+                    else:
+                        break
                 if log_retention_days == 365:
                     enabled = True
                 else:
@@ -133,7 +158,7 @@ class logging_monitoring_fix:
                         print(r.json())
                         print(" ===> Not updated!!! Error")
             except Exception as e:
-                print(" ===> Not updated!!! Error ", e)
+                print(" ===> Not updated!!! Error", e)
 
             print(" ===> Network Wathers Enabled Successfully")
         
