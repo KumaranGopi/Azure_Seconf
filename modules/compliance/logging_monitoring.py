@@ -123,11 +123,30 @@ class logging_monitoring:
     
     # CIS 6.5: Ensure that Network Watcher is 'Enabled'
 
-    # def network_watcher_enable(self, mgmt_token):
-    #     req_url = url_const.NETWORK_WATCHER_LIST.format(self.SUBSCRIPTION_ID)  
-    #     req_header = {'Authorization': 'Bearer {}'.format(mgmt_token),
-    #                   'Content-Type': 'application/json'}
-    #     r = requests.get(req_url, headers=req_header)
-    #     x = r.json()
-    #     for each_item in x["value"]:
-    #         if each item["location"] == 
+    def network_watcher_enable(self, mgmt_token):
+        req_url = url_const.NETWORK_WATCHER_LIST.format(self.SUBSCRIPTION_ID)  
+        req_header = {'Authorization': 'Bearer {}'.format(mgmt_token),
+                      'Content-Type': 'application/json'}
+        r = requests.get(req_url, headers=req_header)
+        x = r.json()
+
+        locations = ["australiacentral","australiaeast","australiasoutheast","brazilsouth",
+                    "canadacentral","canadaeast","centralindia","centralus","eastasia",
+                    "eastus","eastus2","francecentral","germanywestcentral","japaneast",
+                    "japanwest","koreacentral","koreasouth","northcentralus","northeurope",
+                    "norwayeast","southafricanorth","southcentralus","southindia","southeastasia",
+                    "switzerlandnorth","uaenorth","uksouth","ukwest","westcentralus",
+                    "westeurope","westindia","westus","westus2"]
+        print("\nCIS 6.5: Ensure that Network Watcher is 'Enabled'")           
+        current_locations = list()
+        for each_item in x["value"]:
+            current_locations.append(each_item["location"])
+        
+        nc_locations = set(locations).difference(current_locations)
+            
+        if len(nc_locations) is not 0:
+            print(" ===> Network watcher NOT COMPLIANT")
+        else:
+            print(" ===> Network watcher is COMPLIANT")
+
+        return nc_locations

@@ -135,7 +135,7 @@ CREATE_LOG_PROFILE = "https://management.azure.com/subscriptions/{}/providers/mi
 
 # 1. {SUBSCRIPTION_ID}
 
-NETWORK_WATCHER_LIST = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Network/networkWatchers?api-version=2020-04-01"
+NETWORK_WATCHER_LIST = "https://management.azure.com/subscriptions/{}/providers/Microsoft.Network/networkWatchers?api-version=2016-03-30"
 
 # 1. {SUBSCRIPTION_ID} 2. {RESOURCE_GROUP} 3. {NETWORKWATCHER_NAME}
 

@@ -24,7 +24,7 @@ class SecurityCenterFix:
                     "name": "default",
                     "type": "Microsoft.Security/pricings",
                     "properties": {
-                        "pricingTier": "Standard"
+                        "pricingTier": "Free"
                         }
                     }
                 r = requests.put(req_url,headers=headers,data=json.dumps(data))

@@ -106,7 +106,7 @@ class logging_monitoring_fix:
             splitted_value = each_property[0].split('/')
             req_url = url_const.STORAGE_CONTAINER_FIX.format(splitted_value[2], splitted_value[4], splitted_value[8], each_property[1])
             headers = {'Authorization': 'Bearer {}'.format(mgmt_token), 'Content-Type': 'application/json'}
-            data = data = {"properties": {"publicAccess": "None"}}
+            data = {"properties": {"publicAccess": "None"}}
             r = requests.patch(req_url,headers=headers,data=json.dumps(data))
             if r.status_code == 200:
                 print(" ===> Storage Container", each_property[1].upper(),"is set to private ")
@@ -115,3 +115,25 @@ class logging_monitoring_fix:
                 
 
     # CIS 6.5: Ensure that Network Watcher is 'Enabled'
+
+    def network_watcher_fix(self, token):
+        network_watcher_data = self.lm.network_watcher_enable(token)
+
+        if len(network_watcher_data) != 0:
+            resource_group = input("Enter ResourceGroup Name: ")
+            network_watcher_name = resource_group + "_{}"
+
+            try:
+                for each_item in network_watcher_data:
+                    req_url = url_const.CREATE_NETWORK_WATCHER.format(self.SUBSCRIPTION_ID, resource_group, network_watcher_name.format(each_item))
+                    headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
+                    data = {"location": each_item,"properties": {}}
+                    r = requests.put(req_url,headers=headers,data=json.dumps(data))
+                    if r.status_code != 200 or r.status_code != 201:
+                        print(r.json())
+                        print(" ===> Not updated!!! Error")
+            except Exception as e:
+                print(" ===> Not updated!!! Error ", e)
+
+            print(" ===> Network Wathers Enabled Successfully")
+        
