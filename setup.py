@@ -8,11 +8,11 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='Azure_CIS',
+    name='Azure_Seconf',
     version='0.1.0',
     description='Azure CIS Benchmark',
     long_description=readme,
-    author='Kenneth Reitz',
+    author='Kumaran Gopi',
     author_email='',
     url='',
     license=license,

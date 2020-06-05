@@ -1,2 +1,2 @@
-azure-mgmt-storage==10.0.0
+adal==1.2.3
 xmltodict
