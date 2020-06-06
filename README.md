@@ -1,5 +1,7 @@
 # Azure Seconf
 
+![Azure_Seconf](logo.png)
+
 This tool will benchmark your Azure Subsrciption against CIS. It displays which are rules that your Azure subscription is COMPLIANT and which are NON-COMPLIANT.
 
 ## Credentials file
