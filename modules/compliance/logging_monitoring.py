@@ -89,6 +89,7 @@ class logging_monitoring:
             r = requests.get(req_url, headers=req_header)
             xpars = xmltodict.parse(r.text)
             container_info = json.loads(json.dumps(xpars))
+            print(container_info)
             try:
                 if container_info["EnumerationResults"]["Containers"] is None:
                     print(" ===> No containers found in", splitted_value[8].upper())

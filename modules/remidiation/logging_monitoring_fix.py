@@ -156,10 +156,9 @@ class logging_monitoring_fix:
                     data = {"location": each_item,"properties": {}}
                     r = requests.put(req_url,headers=headers,data=json.dumps(data))
                     if r.status_code != 200 or r.status_code != 201:
-                        print(r.json())
-                        print(" ===> Not updated!!! Error")
+                        pass
             except Exception as e:
                 print(" ===> Not updated!!! Error", e)
 
-            print(" ===> Network Wathers Enabled Successfully")
+            print(" ===> Network Watchers Enabled Successfully")
         
