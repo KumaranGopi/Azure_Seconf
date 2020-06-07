@@ -29,17 +29,20 @@ class KeyVault:
             req = requests.get(get_key_url, headers=key_req_header)
             a = req.json()
             # print(a)
-            for key_resp in a["value"]:
-                try:
-                    splitted_value = key_resp["kid"].split('/')
-                    key_resp["attributes"]["exp"]
-                    print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is compliant ")
-                except KeyError as ke:
-                    print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is not compliant ")
-                    key_exp_nc.append([])
-                    key_exp_nc[self.inc].append(key_resp["kid"])
-                    key_exp_nc[self.inc].append(each_item["properties"]["vaultUri"])
-                    self.inc += 1
+            try:
+                for key_resp in a["value"]:
+                    try:
+                        splitted_value = key_resp["kid"].split('/')
+                        key_resp["attributes"]["exp"]
+                        print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is compliant ")
+                    except KeyError as ke:
+                        print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is not compliant ")
+                        key_exp_nc.append([])
+                        key_exp_nc[self.inc].append(key_resp["kid"])
+                        key_exp_nc[self.inc].append(each_item["properties"]["vaultUri"])
+                        self.inc += 1
+            except KeyError as kee:
+                print(" ===> Error Occured", a["error"]["message"])
         self.inc = 0
         return key_exp_nc
 
@@ -55,18 +58,20 @@ class KeyVault:
                       'Content-Type': 'application/json'}
             req = requests.get(get_key_url, headers=key_req_header)
             a = req.json()
-            for sec_resp in a["value"]:
-                try:
-                    splitted_value = sec_resp["id"].split('/')
-                    sec_resp["attributes"]["exp"]
-                    print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is compliant ")
-                except KeyError as ke:
-                    print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is not compliant ")
-                    sec_exp_nc.append([])
-                    sec_exp_nc[self.inc].append(sec_resp["id"])
-                    sec_exp_nc[self.inc].append(each_item["properties"]["vaultUri"])
-                    self.inc += 1
-
+            try:
+                for sec_resp in a["value"]:
+                    try:
+                        splitted_value = sec_resp["id"].split('/')
+                        sec_resp["attributes"]["exp"]
+                        print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is compliant ")
+                    except KeyError as ke:
+                        print(" ===>",splitted_value[4].upper()," in KeyVault",each_item["name"].upper(),"is not compliant ")
+                        sec_exp_nc.append([])
+                        sec_exp_nc[self.inc].append(sec_resp["id"])
+                        sec_exp_nc[self.inc].append(each_item["properties"]["vaultUri"])
+                        self.inc += 1
+            except KeyError as kee:
+                print(" ===> Error Occured", a["error"]["message"])
         self.inc = 0
         return sec_exp_nc
 

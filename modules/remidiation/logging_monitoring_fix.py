@@ -75,11 +75,12 @@ class logging_monitoring_fix:
                     except ValueError as _:
                         print("Enter only interger values")
                         continue
-                    if log_retention_Days != 365 or log_retention_Days != 0:
-                        print("Enter Value as 365 or 0 as per CIS guidelines!!")
-                    else:
+                    if log_retention_Days == 365 or log_retention_Days == 0:
                         break
-                if log_retention_days == 365:
+                    else:
+                        print("Enter Value as 365 or 0 as per CIS guidelines!!")
+                        continue
+                if log_retention_Days == 365:
                     enabled = True
                 else:
                     enabled = False
@@ -87,7 +88,7 @@ class logging_monitoring_fix:
                 log_retention_header = {'Authorization': 'Bearer {}'.format(mgmt_token),
                                  'Content-Type': 'application/json'}
                 log_retention_data = {"properties": {"locations": each_item["properties"]["locations"],"categories": each_item["properties"]["categories"],
-                                                    "retentionPolicy": {"enabled": enabled, "days": log_retention_days},"storageAccountId": ""+ each_item["properties"]["storageAccountId"] +""}}
+                                                    "retentionPolicy": {"enabled": enabled, "days": log_retention_Days},"storageAccountId": ""+ each_item["properties"]["storageAccountId"] +""}}
                 log_retention_req = requests.put(log_retention_url, headers=log_retention_header, data=json.dumps(log_retention_data))
                 if log_retention_req.status_code == 200:
                     print(" ===> Activity Log Retention Days Updated Successfully ")
