@@ -65,7 +65,7 @@ class SecurityCenterFix:
             print("Your SecurityContact List is Empty!!. Add a security Contact to get Compliant")
             while True:
                 securityContact_emailID = input("Enter the Email_ID: ")
-                EMAIL_REGEX = re.compile(r"'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'")
+                EMAIL_REGEX = re.compile(r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$')
                 if not EMAIL_REGEX.match(securityContact_emailID):
                     print("Please enter a valid email Id")
                     continue
@@ -122,7 +122,7 @@ class SecurityCenterFix:
 
     def securitycontacts_phone_fix(self, token):
         sec_phone_data = self.ss.securitycontacts_phone(token)
-        if not sec_phone_data:
+        if not sec_phone_data["value"]:
             print("Your SecurityContact List is Empty!!. Add a security Contact to get Compliant")
             while True:
                 try:
@@ -155,14 +155,10 @@ class SecurityCenterFix:
                 print(" ===> Not updated!!! Error ")
 
         try:
-            if sec_phone_data["value"][0]["properties"]["phone"]== '':
+            if sec_phone_data["value"][0]["properties"]["phone"] == "":
                 print("Phone Number is not Set in your SecurityContact!!. Add Phone Number to get Compliant")
                 while True:
-                    try:
-                        SecurityContact_PhoneNo = int(input("Enter the Phone_Number: "))
-                    except ValueError as _:
-                        print("Enter only interger values")
-                        continue
+                    SecurityContact_PhoneNo = str(input("Enter the Phone_Number: "))             
                     PHONE_REGEX = re.compile(r'^\+(?:[0-9] ?){6,14}[0-9]$')
                     if not PHONE_REGEX.match(SecurityContact_PhoneNo):
                         print("Please enter a valid Phone_No")
@@ -189,11 +185,7 @@ class SecurityCenterFix:
         except KeyError as ke:
             print("Phone Number is not Set in your SecurityContact!!. Add Phone Number to get Compliant")
             while True:
-                try:
-                    SecurityContact_PhoneNo = int(input("Enter the Phone_Number: "))
-                except ValueError as _:
-                    print("Enter only interger values")
-                    continue
+                SecurityContact_PhoneNo = str(input("Enter the Phone_Number: "))  
                 PHONE_REGEX = re.compile(r'^\+(?:[0-9] ?){6,14}[0-9]$')
                 if not PHONE_REGEX.match(SecurityContact_PhoneNo):
                     print("Please enter a valid Phone_No")
