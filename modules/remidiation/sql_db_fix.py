@@ -39,7 +39,6 @@ class sql_DB_fix:
                 headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
                 data = {"properties": {"sslEnforcement": "Enabled"}}
                 r = requests.patch(req_url,headers=headers,data=json.dumps(data))
-                print(r.status_code)
                 if r.status_code == 202 or r.status_code == 200:
                     print(" ===> SSL is enforced for MY_SQL server", splitted_value[8].upper())
                 else:

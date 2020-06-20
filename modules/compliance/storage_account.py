@@ -28,7 +28,7 @@ class StorageAccount:
         x = r.json()
 
         if not x["value"]:
-            print("===> No SQL servers found!!")
+            print("===> No Storage Accounts found!!")
         
         StorageAccount_list = list()
         for _ in x:

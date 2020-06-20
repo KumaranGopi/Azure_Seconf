@@ -43,7 +43,7 @@ class DataBaseServices:
             unsan_resource_group = each_item[1]
             temp_resource_group = unsan_resource_group.split('/')
             san_resource_group = temp_resource_group[4]
-            db_list_url = url_const.SQL_DB_LIST.format(self.SUBSCRIPTION_ID, san_resource_group, each_item[0]) #
+            db_list_url = url_const.SQL_DB_LIST.format(self.SUBSCRIPTION_ID, san_resource_group, each_item[0]) 
             req_header = {'Authorization': 'Bearer {}'.format(mgmt_token),
                       'Content-Type': 'application/json'}
             h = requests.get(db_list_url, headers=req_header)
