@@ -23,7 +23,7 @@ from modules.remidiation.sql_db_fix import sql_DB_fix
 from modules.remidiation.key_vault_fix import KeyVaultFix
 
 
-f = open( r'/home/kumaran/azure_cis/modules/constants/banner.txt', 'r')
+f = open( r'banner.txt', 'r')
 file_contents = f.read()
 print ('\033[1m'+ file_contents)
 f.close()
