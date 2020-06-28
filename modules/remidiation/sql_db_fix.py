@@ -162,7 +162,7 @@ class sql_DB_fix:
             splitted_value = each_property[0].split('/')
             req_url = url_const.POSTGRESQL_CONFIG_UPDATE.format(splitted_value[2], splitted_value[4], splitted_value[8], "log_retention_days")
             headers = {'Authorization': 'Bearer {}'.format(token), 'Content-Type': 'application/json'}
-            data = {"properties": {"value": ""+ Retention_Days +"","source": "user-override"}}
+            data = {"properties": {"value": ""+ str(Retention_Days) +"","source": "user-override"}}
             r = requests.put(req_url,headers=headers,data=json.dumps(data))
             if r.status_code == 202 or r.status_code == 200:
                 print("===> Log_Retention_Days is set to more than 3 days for server", splitted_value[8].upper())

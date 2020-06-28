@@ -81,6 +81,7 @@ class DataBaseServices:
                       'Content-Type': 'application/json'}
         h = requests.get(req_url, headers=req_header)
         y = h.json()
+        print("\nCIS 4.11: Ensure 'Enforce SSL connection' is set to 'ENABLED' for MySQL Database Server  ")
         if not y["value"]:
             print(" ===> No MySQL servers found!! ")
         
@@ -92,8 +93,7 @@ class DataBaseServices:
                 Mysql_SSL_list[j].append(b["id"])
                 Mysql_SSL_list[j].append(b["name"])
                 Mysql_SSL_list[j].append(b["properties"]["sslEnforcement"])
-                j += 1
-        print("\nCIS 4.11: Ensure 'Enforce SSL connection' is set to 'ENABLED' for MySQL Database Server  ")        
+                j += 1        
         for each_property in Mysql_SSL_list:
             if each_property[2] == "Enabled":
                 print("===> MySQL Server",each_property[1].upper(),"is compliant") 
