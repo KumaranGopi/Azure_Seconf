@@ -87,6 +87,7 @@ if args.check_compliance:
     keyvault_comp.secret_expiration(MGMT_TOKEN, VAULT_TOKEN)
     keyvault_comp.key_vault_recover(MGMT_TOKEN)
 
+
 if args.remediation:
     rem = StorageAccountFix(SUBSCRIPTION_ID,TENANT_ID,CLIENT_ID,CLIENT_SECRET)
     rem.storage_account_fix(MGMT_TOKEN)
